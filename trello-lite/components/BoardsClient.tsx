@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
-import { Trash2, Plus, LogOut } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { Trash2, Plus, LogOut, Shield } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -18,6 +18,7 @@ interface BoardsClientProps {
 
 export function BoardsClient({ initialBoards }: BoardsClientProps) {
   const router = useRouter();
+  const { data: session } = useSession();
   const { toast } = useToast();
   const [boards, setBoards] = useState(initialBoards);
   const [open, setOpen] = useState(false);
@@ -45,15 +46,28 @@ export function BoardsClient({ initialBoards }: BoardsClientProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-blue-600 text-white px-6 py-3 flex items-center justify-between">
+      <header className="bg-blue-600 text-white px-6 py-3 flex items-center justify-between shadow-sm">
         <h1 className="text-xl font-bold">Trello Lite</h1>
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="flex items-center gap-1 text-sm hover:opacity-80"
-        >
-          <LogOut className="h-4 w-4" />
-          Sign out
-        </button>
+        <div className="flex items-center gap-3">
+          {session?.user?.role === "ADMIN" && (
+            <Button
+              size="sm"
+              variant="secondary"
+              className="bg-purple-100 text-purple-900 hover:bg-purple-200 font-medium"
+              onClick={() => router.push("/admin")}
+            >
+              <Shield className="h-4 w-4 mr-1 text-purple-700" />
+              Admin Console
+            </Button>
+          )}
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex items-center gap-1 text-sm hover:opacity-80"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign out
+          </button>
+        </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-6 py-8">

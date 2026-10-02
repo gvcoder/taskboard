@@ -15,7 +15,7 @@ export async function getBoardWithLists(boardId: string) {
         lists: {
           orderBy: { order: "asc" },
           include: {
-            cards: { orderBy: { order: "asc" }, include: { labels: true } },
+            cards: { orderBy: { order: "asc" }, include: { labels: true, subtasks: true } },
           },
         },
       },

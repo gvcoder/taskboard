@@ -17,6 +17,7 @@ sqlite.exec(`
     "email" TEXT NOT NULL UNIQUE,
     "name" TEXT,
     "password" TEXT NOT NULL,
+    "role" TEXT NOT NULL DEFAULT 'USER',
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
   CREATE TABLE IF NOT EXISTS "Board" (
@@ -55,6 +56,17 @@ sqlite.exec(`
     "cardId" TEXT NOT NULL,
     FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE
   );
+  CREATE TABLE IF NOT EXISTS "Subtask" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "completed" BOOLEAN NOT NULL DEFAULT 0,
+    "order" INTEGER NOT NULL,
+    "cardId" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("cardId") REFERENCES "Card"("id") ON DELETE CASCADE
+  );
+
 `);
 sqlite.close();
 

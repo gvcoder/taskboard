@@ -211,7 +211,11 @@ export async function getCardWithLabels(cardId: string) {
     const user = await requireAuth();
     const card = await prisma.card.findUnique({
       where: { id: cardId },
-      include: { labels: true, list: { include: { board: true } } },
+      include: {
+        labels: true,
+        subtasks: { orderBy: { order: "asc" } },
+        list: { include: { board: true } },
+      },
     });
     if (!card) throw new NotFoundError();
     if (card.list.board.userId !== user.id) throw new UnauthorizedError();

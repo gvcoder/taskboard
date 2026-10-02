@@ -3,9 +3,9 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
-import { signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Plus, ArrowLeft, LogOut } from "lucide-react";
+import { Plus, ArrowLeft, LogOut, Shield } from "lucide-react";
 import { ListColumn } from "./ListColumn";
 import { CardModal } from "./CardModal";
 import { Button } from "./ui/button";
@@ -29,6 +29,7 @@ interface BoardClientProps {
 
 export function BoardClient({ boardId, initialBoard }: BoardClientProps) {
   const router = useRouter();
+  const { data: session } = useSession();
   const qc = useQueryClient();
   const { toast } = useToast();
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -155,6 +156,17 @@ export function BoardClient({ boardId, initialBoard }: BoardClientProps) {
           <ArrowLeft className="h-5 w-5" />
         </button>
         <h1 className="text-white font-bold text-lg flex-1">{board?.title}</h1>
+        {session?.user?.role === "ADMIN" && (
+          <Button
+            size="sm"
+            variant="secondary"
+            className="bg-purple-100 text-purple-900 hover:bg-purple-200 font-medium text-xs px-2.5 py-1 h-8"
+            onClick={() => router.push("/admin")}
+          >
+            <Shield className="h-3.5 w-3.5 mr-1 text-purple-700" />
+            Admin Console
+          </Button>
+        )}
         <button
           onClick={handleDeleteBoard}
           className="text-white/70 hover:text-red-300 text-sm"

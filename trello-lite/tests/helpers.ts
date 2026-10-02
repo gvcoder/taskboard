@@ -12,9 +12,9 @@ export async function createTestUser(email = "test@example.com", password = "pas
 }
 
 /** Set the mocked session to act as a given user */
-export function setSession(userId: string, email = "test@example.com") {
+export function setSession(userId: string, email = "test@example.com", role = "USER") {
   mockGetServerSession.mockResolvedValue({
-    user: { id: userId, email },
+    user: { id: userId, email, role },
     expires: new Date(Date.now() + 86400000).toISOString(),
   });
 }
@@ -47,6 +47,7 @@ export async function createTestCard(listId: string, title = "Test Card", order 
 
 /** Clean all tables between tests */
 export async function cleanDb() {
+  await prisma.subtask.deleteMany();
   await prisma.label.deleteMany();
   await prisma.card.deleteMany();
   await prisma.list.deleteMany();

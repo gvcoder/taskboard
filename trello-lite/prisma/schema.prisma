@@ -11,6 +11,7 @@ model User {
   email     String   @unique
   name      String?
   password  String
+  role      String   @default("USER")
   boards    Board[]
   createdAt DateTime @default(now())
 }
@@ -46,6 +47,7 @@ model Card {
   listId      String
   list        List      @relation(fields: [listId], references: [id], onDelete: Cascade)
   labels      Label[]
+  subtasks    Subtask[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -57,3 +59,15 @@ model Label {
   cardId String
   card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
 }
+
+model Subtask {
+  id        String   @id @default(cuid())
+  title     String
+  completed Boolean  @default(false)
+  order     Int
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
