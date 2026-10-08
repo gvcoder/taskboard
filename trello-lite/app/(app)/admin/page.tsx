@@ -17,13 +17,16 @@ export default async function AdminPage() {
   const [statsRes, usersRes] = await Promise.all([getAdminStats(), getAdminUsers()]);
 
   if (!statsRes.success || !usersRes.success) {
+    const errorMessage =
+      (!statsRes.success ? statsRes.error : null) ||
+      (!usersRes.success ? usersRes.error : null) ||
+      "Failed to load admin console.";
+
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white p-6 rounded-lg shadow-md border text-center">
           <h1 className="text-xl font-bold text-red-600 mb-2">Admin Error</h1>
-          <p className="text-sm text-gray-600 mb-4">
-            {statsRes.error || usersRes.error || "Failed to load admin console."}
-          </p>
+          <p className="text-sm text-gray-600 mb-4">{errorMessage}</p>
         </div>
       </div>
     );

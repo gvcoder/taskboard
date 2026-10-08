@@ -159,7 +159,7 @@ export function BoardClient({ boardId, initialBoard }: BoardClientProps) {
         {session?.user?.role === "ADMIN" && (
           <Button
             size="sm"
-            variant="secondary"
+            variant="outline"
             className="bg-purple-100 text-purple-900 hover:bg-purple-200 font-medium text-xs px-2.5 py-1 h-8"
             onClick={() => router.push("/admin")}
           >

@@ -1,0 +1,17 @@
+{
+  "name": "TaskBoard Lite",
+  "short_name": "TaskLite",
+  "description": "Lite prioritized mobile companion for quick status toggling and offline sync",
+  "start_url": "/mobile",
+  "display": "standalone",
+  "background_color": "#090d16",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

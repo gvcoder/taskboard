@@ -52,7 +52,7 @@ export function BoardsClient({ initialBoards }: BoardsClientProps) {
           {session?.user?.role === "ADMIN" && (
             <Button
               size="sm"
-              variant="secondary"
+              variant="outline"
               className="bg-purple-100 text-purple-900 hover:bg-purple-200 font-medium"
               onClick={() => router.push("/admin")}
             >
